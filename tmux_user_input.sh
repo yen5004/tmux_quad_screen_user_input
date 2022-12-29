@@ -1,5 +1,31 @@
 #!/bin/bash
 
+#ask if user wants to customize Sess & windows
+read -p 'would you like to customize session & window names? "
+
+
+
+#ask for sess & window names & store in var:
+read -p 'Session Name: ', $1
+
+#Window 1 Name:
+read -p 'Window 1 Name: ', $2
+
+#Window 2 Name:
+read -p 'Window 2 Name: ', $3
+
+#Window 3 Name:
+read -p 'Window 3 Name: ', $4
+
+#Window 4 Name:
+read -p 'Window 4 Name: ', $5
+
+
+#ask for user input:
+
+
+
+
 # Set session name
 SESSION="Pentest"
 SESSIONEXISTS=$(tmux list-sessions | grep $SESSION)
