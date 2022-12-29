@@ -1,33 +1,48 @@
 #!/bin/bash
 
 #ask if user wants to customize Sess & windows
-read -p 'would you like to customize session & window names? "
+read -p 'would you like to customize session & window names? (y/n): " yn
+case $yn in
+    yes ) #ask for sess & window names & store in var:
+            read -p 'Session Name: ', $SESSION
+
+            #Window 0 Name:
+            read -p 'Window 1 Name: ', $w0
+            
+            #Window 1 Name:
+            read -p 'Window 1 Name: ', $w1
+
+            #Window 2 Name:
+            read -p 'Window 2 Name: ', $w2
+
+            #Window 3 Name:
+            read -p 'Window 3 Name: ', $w3
+
+            #Window 4 Name:
+            read -p 'Window 4 Name: ', $w4;;
+    
+    
+    no ) # Set session name
+         $SESSION= 'Pentest'
+
+         #Window 0 Name:
+         $w0='Recon'
+         
+         #Window 1 Name:
+         $w1='Enumeration'
+
+         #Window 2 Name:
+         $w2='Exploit'
+
+         #Window 3 Name:
+         $w3='Post Exploit'
+
+          #Window 4 Name:
+          $w4='Report';;
+    * ) exit 1;;
 
 
-
-#ask for sess & window names & store in var:
-read -p 'Session Name: ', $1
-
-#Window 1 Name:
-read -p 'Window 1 Name: ', $2
-
-#Window 2 Name:
-read -p 'Window 2 Name: ', $3
-
-#Window 3 Name:
-read -p 'Window 3 Name: ', $4
-
-#Window 4 Name:
-read -p 'Window 4 Name: ', $5
-
-
-#ask for user input:
-
-
-
-
-# Set session name
-SESSION="Pentest"
+# Grab session name
 SESSIONEXISTS=$(tmux list-sessions | grep $SESSION)
 
 # Only create TUMX session if on doesnt already exist
@@ -36,33 +51,41 @@ then
     #Start new session with our name
     tmux new-session -d -s $SESSION
     #Start new window
-    tmux new-window -t $SESSION:0 -n 'Recon'
+    tmux new-window -t $SESSION:0 -n $w0
+      #create var for pipe-pane
+      $sip=tmux pipe-pane -o 'cat >>~/tmux_output.#S:#I-#P'
       #Logging Pane 0
-      tmux pipe-pane -o 'cat >>~/tmux_output.#S:#I-#P'
+      #try new code var instead of this line below
+      #tmux pipe-pane -o 'cat >>~/tmux_output.#S:#I-#P'
+      $sip 
     #Start new window
-    tmux new-window -t $SESSION:1 -n 'Enumeration'
+    tmux new-window -t $SESSION:1 -n $w1
       #Logging Pane 1
-      tmux pipe-pane -o 'cat >>~/tmux_output.#S:#I-#P'
+      #tmux pipe-pane -o 'cat >>~/tmux_output.#S:#I-#P'
+      $sip
     #Start new window
-    tmux new-window -t $SESSION:2 -n 'Exploit'
+    tmux new-window -t $SESSION:2 -n $w2
       #Logging Pane 2
-      tmux pipe-pane -o 'cat >>~/tmux_output.#S:#I-#P'
+      #tmux pipe-pane -o 'cat >>~/tmux_output.#S:#I-#P'
+      $sip
     #Start new window
-    tmux new-window -t $SESSION:3 -n 'Post Exploit'
+    tmux new-window -t $SESSION:3 -n $w3
       #Logging Pane 3
-      tmux pipe-pane -o 'cat >>~/tmux_output.#S:#I-#P'
+      #tmux pipe-pane -o 'cat >>~/tmux_output.#S:#I-#P'
+      $sip
     #Start new window
-    tmux new-window -t $SESSION:4 -n 'Report'
+    tmux new-window -t $SESSION:4 -n $w4
       #Logging Pane 4
-      tmux pipe-pane -o 'cat >>~/tmux_output.#S:#I-#P'
+      #tmux pipe-pane -o 'cat >>~/tmux_output.#S:#I-#P'
+      $sip
       
     #Name Windows and start zsh
-    tmux rename-window -t 0 'Recon'
-    tmux rename-window -t 1 'Enumeration'
-    tmux rename-window -t 2 'Exploit'
-    tmux rename-window -t 3 'Post Exploit'
-    tmux rename-window -t 4 'Report'
-    tmux send-keys -t 'Recon' 'zsh' C-m 'clear' C-m
+    tmux rename-window -t 0 $w0
+    tmux rename-window -t 1 $w1
+    tmux rename-window -t 2 $w2
+    tmux rename-window -t 3 $w3
+    tmux rename-window -t 4 $w4
+    tmux send-keys -t $w0 'zsh' C-m 'clear' C-m
 fi
 
 #Attach Session, on the Pentest window
