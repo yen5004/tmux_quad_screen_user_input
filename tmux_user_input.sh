@@ -1,26 +1,25 @@
 #!/bin/bash
 
-#ask if user wants to customize Sess & windows
-read -p 'would you like to customize session & window names? (y/n): " yn
+# Ask if user wants to customize Sess & window names
+read -p 'Customize session & window names? (y/n): " yn
 case $yn in
-    yes ) #ask for sess & window names & store in var:
+    yes ) # Ask for sess & window names & store in var:
             read -p 'Session Name: ', $SESSION
 
             #Window 0 Name:
             read -p 'Window 1 Name: ', $w0
             
             #Window 1 Name:
-            read -p 'Window 1 Name: ', $w1
+            read -p 'Window 2 Name: ', $w1
 
             #Window 2 Name:
-            read -p 'Window 2 Name: ', $w2
+            read -p 'Window 3 Name: ', $w2
 
             #Window 3 Name:
-            read -p 'Window 3 Name: ', $w3
+            read -p 'Window 4 Name: ', $w3
 
             #Window 4 Name:
-            read -p 'Window 4 Name: ', $w4;;
-    
+            read -p 'Window 5 Name: ', $w4;;
     
     no ) # Set session name
          $SESSION= 'Pentest'
@@ -41,24 +40,23 @@ case $yn in
           $w4='Report';;
     * ) exit 1;;
 
-
 # Grab session name
 SESSIONEXISTS=$(tmux list-sessions | grep $SESSION)
 
 # Only create TUMX session if on doesnt already exist
 if ["$SESSIONEXISTS" = ""]
 then
-    #Start new session with our name
+    # Start new session with our name
     tmux new-session -d -s $SESSION
-    #Start new window
+    # Start new window
     tmux new-window -t $SESSION:0 -n $w0
-      #create var for pipe-pane
+      # Create var for pipe-pane
       $sip=tmux pipe-pane -o 'cat >>~/tmux_output.#S:#I-#P'
-      #Logging Pane 0
-      #try new code var instead of this line below
+      # Logging Pane 0
+      # Try new code var instead of this line below
       #tmux pipe-pane -o 'cat >>~/tmux_output.#S:#I-#P'
       $sip 
-    #Start new window
+    # Start new window
     tmux new-window -t $SESSION:1 -n $w1
       #Logging Pane 1
       #tmux pipe-pane -o 'cat >>~/tmux_output.#S:#I-#P'
